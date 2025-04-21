@@ -1,0 +1,20 @@
+services:
+  bankaccountdatabase:
+    container_name: bankaccountdatabase
+    restart: always
+    environment:
+      POSTGRES_USER: BankAccountUser
+      POSTGRES_PASSWORD: BankAccountPassword
+      POSTGRES_DB: BankAccountDb
+    ports:
+      - "5432:5432"
+  bankaccountapi:
+    container_name: bankaccountapi
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bankaccountdatabase
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__MartenEventStore=Host=bankaccountdatabase;Port=5432;Database=BankAccountDb;Username=BankAccountUser;Password=BankAccountPassword

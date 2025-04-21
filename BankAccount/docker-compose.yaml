@@ -1,0 +1,13 @@
+services:
+  bankaccountdatabase:
+    image: postgres:latest    
+    volumes:
+      - BankAccountDb:/var/lib/postgresql/data
+  bankaccountapi:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: BankAccount.API/Dockerfile
+    
+volumes:
+  BankAccountDb:

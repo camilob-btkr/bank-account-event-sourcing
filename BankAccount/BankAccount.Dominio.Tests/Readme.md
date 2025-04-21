@@ -1,0 +1,7 @@
+- [x] Cuando crea una cuenta debe emitir evento CuentaCreada
+- [x] Cuando deposita dinero en una cuenta que no existe debe emitir un evento DepositoFallidoPorCuentaInexistente
+- [x] Cuando deposita dinero en una cuenta que existe debe emitir un evento DineroDepositado
+- [x] Cuando retiro dinero y la cuenta no existe debe emitir un evento RetiroFallidoPorCuentaInexistente
+- [x] Cuando retiro dinero y la cuenta existe pero no tiene saldo suficiente debe emitir un evento RetiroFallidoPorSaldoInsuficiente
+- [x] Cuando retiro dinero y la cuenta existe y tiene saldo suficiente debe emitir un evento DineroRetirado
+- [ ] Cuando retiro 20_000 pesos la cuenta existe y tengo saldo de 25_000 debe emitir un evento DineroRetirado con 20_000 de monto y 5_000 de saldo.
