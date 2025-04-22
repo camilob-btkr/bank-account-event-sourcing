@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "todo",
+    "Projects": [
+      {
+        "Path": "BankAccount\\BankAccount.API\\BankAccount.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "BankAccount\\BankAccount.Read.API\\BankAccount.Read.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "BankAccount\\BankAccount.Proyecciones.Worker\\BankAccount.Proyecciones.Worker.csproj",
+        "Action": "Start",
+        "DebugTarget": "BankAccount.Proyecciones.Worker"
+      }
+    ]
+  }
+]

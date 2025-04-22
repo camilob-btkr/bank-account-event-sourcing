@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Dominio", "BankAccount\BankAccount.Dominio\BankAccount.Dominio.csproj", "{DF594DC4-DCF0-4AA6-8097-10C00C80E350}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.EventStore", "BankAccount\BankAccount.EventStore\BankAccount.EventStore.csproj", "{9AF92569-B315-408F-BE30-47EBC377DD4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docker-compose", "BankAccount\docker-compose.dcproj", "{19FA2813-4797-43A4-B968-D8D9212446F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Read.API", "BankAccount\BankAccount.Read.API\BankAccount.Read.API.csproj", "{52BBFC42-33F4-4A7D-9492-236C7355F7DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Proyecciones.Worker", "BankAccount\BankAccount.Proyecciones.Worker\BankAccount.Proyecciones.Worker.csproj", "{DF5B2904-9FCE-41B4-8F9A-6B8B65D35C81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Modelos.Lectura", "BankAccount\BankAccount.Modelos.Lectura\BankAccount.Modelos.Lectura.csproj", "{AE844803-E31C-49AA-91B5-D597372D0BD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{19FA2813-4797-43A4-B968-D8D9212446F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19FA2813-4797-43A4-B968-D8D9212446F6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{19FA2813-4797-43A4-B968-D8D9212446F6}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{52BBFC42-33F4-4A7D-9492-236C7355F7DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52BBFC42-33F4-4A7D-9492-236C7355F7DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52BBFC42-33F4-4A7D-9492-236C7355F7DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52BBFC42-33F4-4A7D-9492-236C7355F7DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF5B2904-9FCE-41B4-8F9A-6B8B65D35C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF5B2904-9FCE-41B4-8F9A-6B8B65D35C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF5B2904-9FCE-41B4-8F9A-6B8B65D35C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF5B2904-9FCE-41B4-8F9A-6B8B65D35C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE844803-E31C-49AA-91B5-D597372D0BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE844803-E31C-49AA-91B5-D597372D0BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE844803-E31C-49AA-91B5-D597372D0BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE844803-E31C-49AA-91B5-D597372D0BD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

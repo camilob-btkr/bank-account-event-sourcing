@@ -4,10 +4,6 @@ using BankAccount.Dominio.CuentaBancaria;
 using BankAccount.Dominio.CuentaBancaria.Comandos;
 using BankAccount.Dominio.CuentaBancaria.Consultas;
 using BankAccount.EventStore;
-using FastExpressionCompiler;
-using Marten;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Weasel.Core;
 using Wolverine;
 using Wolverine.Marten;
 
@@ -19,7 +15,8 @@ var martenConnectionString = builder.Configuration.GetConnectionString("MartenEv
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services
     .AddHealthChecks()
     .AddNpgSql(martenConnectionString);
@@ -44,51 +41,58 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (isDevelopment)
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // app.UseHttpsRedirection();
 app.UseHealthChecks("/health");
 
-app.MapPost("/CuentasBancarias", async (ICommandRouter router) =>
+app.MapPost("/CuentasBancarias", async (ICommandRouter router, HttpContext http) =>
 {
-    await router.InvokeAsync(new CrearCuentaBancaria(Guid.CreateVersion7()));
+    var idCuenta = Guid.CreateVersion7();
+
+    await router.InvokeAsync(new CrearCuentaBancaria(idCuenta));
+
+    // Retornar 201 Created con Location y body
+    return Results.Created($"/CuentasBancarias/{idCuenta}", new { id = idCuenta });
 });
 
-app.MapPost("/CuentasBancarias/{idCuentaBancaria}/Transacciones/Depositos", async (Guid idCuentaBancaria, TransaccionRequest solicitud, ICommandRouter router) =>
-{
-    try
+app.MapPost("/CuentasBancarias/{idCuentaBancaria}/Transacciones/Depositos",
+    async (Guid idCuentaBancaria, TransaccionRequest solicitud, ICommandRouter router) =>
     {
-        var comando = new DepositarDinero(idCuentaBancaria, solicitud.monto);
-        await router.InvokeAsync(comando);
-        return Results.Ok();
-    }
-    catch (InvalidOperationException ex)
-    {
-        return Results.NotFound(ex.Message);
-    }
-    
-});
+        try
+        {
+            var comando = new DepositarDinero(idCuentaBancaria, solicitud.monto);
+            await router.InvokeAsync(comando);
+            return Results.Ok();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Results.NotFound(ex.Message);
+        }
+    });
 
-app.MapPost("/CuentasBancarias/{idCuentaBancaria}/Transacciones/Retiros", async (Guid idCuentaBancaria, TransaccionRequest solicitud, ICommandRouter router) =>
-{
-    try
+app.MapPost("/CuentasBancarias/{idCuentaBancaria}/Transacciones/Retiros",
+    async (Guid idCuentaBancaria, TransaccionRequest solicitud, ICommandRouter router) =>
     {
-        var comando = new RetirarDinero(idCuentaBancaria, solicitud.monto);
-        await router.InvokeAsync(comando);
-        return Results.Ok();
-    }
-    catch (InvalidOperationException ex)
-    {
-        return Results.BadRequest(ex.Message);
-    }
-});
+        try
+        {
+            var comando = new RetirarDinero(idCuentaBancaria, solicitud.monto);
+            await router.InvokeAsync(comando);
+            return Results.Ok();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Results.BadRequest(ex.Message);
+        }
+    });
 
 app.MapGet("/CuentasBancarias/{idCuentaBancaria}", async (Guid idCuentaBancaria, IMessageBus router) =>
 {
     var cuentaBancaria = await router.InvokeAsync<CuentaBancaria>(new ObtenerBalance(idCuentaBancaria));
-    if(cuentaBancaria is null) return Results.NotFound("Cuenta bancaria no encontrada");
-    
+    if (cuentaBancaria is null) return Results.NotFound("Cuenta bancaria no encontrada");
+
     return Results.Ok(cuentaBancaria);
 });
 
