@@ -48,11 +48,11 @@ if (isDevelopment)
 // app.UseHttpsRedirection();
 app.UseHealthChecks("/health");
 
-app.MapPost("/CuentasBancarias", async (ICommandRouter router, HttpContext http) =>
+app.MapPost("/CuentasBancarias", async (ICommandRouter router, HttpContext http, CrearCuentaRequest request) =>
 {
     var idCuenta = Guid.CreateVersion7();
 
-    await router.InvokeAsync(new CrearCuentaBancaria(idCuenta));
+    await router.InvokeAsync(new CrearCuentaBancaria(idCuenta, request.IdCliente));
 
     // Retornar 201 Created con Location y body
     return Results.Created($"/CuentasBancarias/{idCuenta}", new { id = idCuenta });
@@ -99,3 +99,5 @@ app.MapGet("/CuentasBancarias/{idCuentaBancaria}", async (Guid idCuentaBancaria,
 app.Run();
 
 public record TransaccionRequest(decimal monto);
+
+public record CrearCuentaRequest(string IdCliente);

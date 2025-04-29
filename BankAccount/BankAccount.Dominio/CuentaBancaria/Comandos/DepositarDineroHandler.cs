@@ -14,7 +14,8 @@ public class DepositarDineroHandler(IEventStore eventStore) : ICommandHandler<De
         decimal saldoDespuesDeposito = cuentaBancaria.Saldo + command.Monto;
 
         var dineroDepositado =
-            new Eventos.DineroDepositado(command.IdCuentaBancaria, command.Monto, saldoDespuesDeposito);
+            new Eventos.DineroDepositado(command.IdCuentaBancaria, command.Monto, saldoDespuesDeposito,
+                cuentaBancaria.IdCliente);
         eventStore.AppendEvent(command.IdCuentaBancaria, dineroDepositado);
     }
 }

@@ -21,7 +21,7 @@ public class RetirarDineroSpecifications : CommandHandlerTest<RetirarDinero>
     public void
         Cuando_retiro_dinero_yla_cuenta_exite_pero_no_tiene_saldo_suficiente_debe_generar_una_excepcion_InvalidOperationException_con_mensaje_Saldo_Insuficiente()
     {
-        Given(new Eventos.CuentaBancariaCreada(_aggregateId));
+        Given(new Eventos.CuentaBancariaCreada(_aggregateId, "IdCliente"));
 
         var caller = () => When(new RetirarDinero(_aggregateId, 2800));
 
@@ -31,45 +31,49 @@ public class RetirarDineroSpecifications : CommandHandlerTest<RetirarDinero>
     [Fact]
     public void Cuando_retiro_dinero_y_la_cuenta_existe_y_tiene_saldo_suficiente_debe_emitir_un_evento_DineroRetirado()
     {
-        Given(new Eventos.CuentaBancariaCreada(_aggregateId), new Eventos.DineroDepositado(_aggregateId, 2800, 2800));
+        Given(new Eventos.CuentaBancariaCreada(_aggregateId, "IdCliente"),
+            new Eventos.DineroDepositado(_aggregateId, 2800, 2800, "IdCliente"));
 
         When(new RetirarDinero(_aggregateId, 2800));
 
-        Then(new Eventos.DineroRetirado(_aggregateId, 2800, 0));
+        Then(new Eventos.DineroRetirado(_aggregateId, 2800, 0, "IdCliente"));
     }
 
     [Fact]
     public void
         Cuando_retiro_20_000_pesos_la_cuenta_existe_y_tengo_saldo_de_25_000_debe_emitir_un_evento_DineroRetirado_con_20_000_de_monto_y_5_000_de_saldo()
     {
-        Given(new CuentaBancariaCreada(_aggregateId), new DineroDepositado(_aggregateId, 25_000, 25_000));
+        Given(new CuentaBancariaCreada(_aggregateId, "IdCliente"),
+            new DineroDepositado(_aggregateId, 25_000, 25_000, "IdCliente"));
 
         When(new RetirarDinero(_aggregateId, 20_000));
 
-        Then(new DineroRetirado(_aggregateId, 20_000, 5000));
+        Then(new DineroRetirado(_aggregateId, 20_000, 5000, "IdCliente"));
     }
 
     [Fact]
     public void
         Cuando_hago_dos_depositos_de_20_000_y_retiro_10_000_debe_emitir_un_evento_DineroRetirado_con_saldo_30_000_y_monto_retirado_10_000()
     {
-        Given(new CuentaBancariaCreada(_aggregateId), new DineroDepositado(_aggregateId, 20_000, 20_000),
-            new DineroDepositado(_aggregateId, 20_000, 40_000));
+        Given(new CuentaBancariaCreada(_aggregateId, "IdCliente"),
+            new DineroDepositado(_aggregateId, 20_000, 20_000, "IdCliente"),
+            new DineroDepositado(_aggregateId, 20_000, 40_000, "IdCliente"));
 
         When(new RetirarDinero(_aggregateId, 10_000));
 
-        Then(new DineroRetirado(_aggregateId, 10_000, 30_000));
+        Then(new DineroRetirado(_aggregateId, 10_000, 30_000, "IdCliente"));
     }
 
     [Fact]
     public void
         Cuando_hago_un_deposito_de_20_000_y_dos_retiros_de_5000_cada_uno_debe_emitir_un_evento_DineroRetirado_con_saldo_10_000_y_monto_retirado_5000()
     {
-        Given(new CuentaBancariaCreada(_aggregateId), new DineroDepositado(_aggregateId, 20_000, 20_000),
-            new DineroRetirado(_aggregateId, 5_000, 15_000));
+        Given(new CuentaBancariaCreada(_aggregateId, "IdCliente"),
+            new DineroDepositado(_aggregateId, 20_000, 20_000, "IdCliente"),
+            new DineroRetirado(_aggregateId, 5_000, 15_000, "IdCliente"));
 
         When(new RetirarDinero(_aggregateId, 5_000));
 
-        Then(new DineroRetirado(_aggregateId, 5_000, 10_000));
+        Then(new DineroRetirado(_aggregateId, 5_000, 10_000, "IdCliente"));
     }
 }

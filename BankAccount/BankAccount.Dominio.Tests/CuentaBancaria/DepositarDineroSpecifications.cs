@@ -19,10 +19,10 @@ public class DepositarDineroSpecifications : CommandHandlerTest<DepositarDinero>
     [Fact]
     public void Cuando_deposita_dinero_en_una_cuenta_que_existe_debe_emitir_un_evento_DineroDepositado()
     {
-        Given(new Eventos.CuentaBancariaCreada(_aggregateId));
+        Given(new Eventos.CuentaBancariaCreada(_aggregateId, "IdCliente"));
 
         When(new DepositarDinero(_aggregateId, 20_000));
 
-        Then(new Eventos.DineroDepositado(_aggregateId, 20_000, 20_000));
+        Then(new Eventos.DineroDepositado(_aggregateId, 20_000, 20_000, "IdCliente"));
     }
 }

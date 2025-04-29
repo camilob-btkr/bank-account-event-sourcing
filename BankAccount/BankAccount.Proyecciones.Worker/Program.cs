@@ -15,6 +15,7 @@ builder.Services
 
         options.Projections.Add<EstadoCuentaProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<MovimientoCuentaProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<SaldoTotalClienteProjection>(ProjectionLifecycle.Async);
     })
     .AddAsyncDaemon(DaemonMode.Solo);
 

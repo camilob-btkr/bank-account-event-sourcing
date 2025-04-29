@@ -41,6 +41,16 @@ app.MapGet("/estado-cuenta/{id:guid}/movimientos", async (Guid id, IQuerySession
     return Results.Text(tabla, "text/plain");
 });
 
+app.MapGet("/clientes/{idCliente}/saldo-total", async (string idCliente, IQuerySession session) =>
+{
+    var saldo = await session.LoadAsync<SaldoTotalCliente>(idCliente);
+
+    if (saldo == null)
+        return Results.NotFound($"No se encontró saldo para el cliente {idCliente}");
+
+    return Results.Ok(saldo);
+});
+
 string GenerarTablaMovimientos(IEnumerable<MovimientoCuenta> movimientos)
 {
     var sb = new System.Text.StringBuilder();

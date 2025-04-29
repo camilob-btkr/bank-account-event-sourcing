@@ -1,6 +1,4 @@
-﻿
-
-namespace BankAccount.Dominio.CuentaBancaria.Comandos;
+﻿namespace BankAccount.Dominio.CuentaBancaria.Comandos;
 
 public record RetirarDinero(Guid IdCuentaBancaria, decimal Monto);
 
@@ -15,8 +13,8 @@ public class RetirarDineroHandler(IEventStore eventStore) : ICommandHandler<Reti
             throw new InvalidOperationException("Saldo Insuficiente");
 
         decimal saldoDespuesRetiro = cuentaBancaria.Saldo - command.Monto;
-        var eventoDineroRetirado = new Eventos.DineroRetirado(command.IdCuentaBancaria, command.Monto, saldoDespuesRetiro);
+        var eventoDineroRetirado = new Eventos.DineroRetirado(command.IdCuentaBancaria, command.Monto,
+            saldoDespuesRetiro, cuentaBancaria.IdCliente);
         eventStore.AppendEvent(command.IdCuentaBancaria, eventoDineroRetirado);
     }
 }
-
